@@ -4,12 +4,16 @@
 module("luci.controller.admin.servicectl", package.seeall)
 
 function index()
-	entry({"servicectl"}, alias("servicectl", "status")).sysauth = "root"
+	entry({"servicectl"}, alias("servicectl", "status")).sysauth = "admin"
 	entry({"servicectl", "status"}, call("action_status")).leaf = true
 	entry({"servicectl", "restart"}, post("action_restart")).leaf = true
 end
 
 function action_status()
+	-- luci.http.write("finish")
+	-- by george 20160418
+	-- allow admin change passwd, not allow root change passwd
+	--[
 	local data = nixio.fs.readfile("/var/run/luci-reload-status")
 	if data then
 		luci.http.write("/etc/config/")
@@ -17,6 +21,7 @@ function action_status()
 	else
 		luci.http.write("finish")
 	end
+	--]
 end
 
 function action_restart(args)
