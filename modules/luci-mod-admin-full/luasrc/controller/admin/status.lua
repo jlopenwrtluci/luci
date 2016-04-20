@@ -35,6 +35,7 @@ function index()
 	entry({"admin", "status", "nameinfo"}, call("action_nameinfo")).leaf = true
 end
 
+--[[
 function action_syslog()
 	local syslog = luci.sys.syslog()
 	luci.template.render("admin_status/syslog", {syslog=syslog})
@@ -44,6 +45,7 @@ function action_dmesg()
 	local dmesg = luci.sys.dmesg()
 	luci.template.render("admin_status/dmesg", {dmesg=dmesg})
 end
+--]]
 
 function action_iptables()
 	if luci.http.formvalue("zero") then
