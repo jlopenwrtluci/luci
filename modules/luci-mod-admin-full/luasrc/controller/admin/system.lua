@@ -8,8 +8,11 @@ function index()
 	local fs = require "nixio.fs"
 
 	entry({"admin", "system"}, alias("admin", "system", "system"), _("System"), 30).index = true
+
+--[[
 	entry({"admin", "system", "system"}, cbi("admin_system/system"), _("System"), 1)
 	entry({"admin", "system", "clock_status"}, post_on({ set = true }, "action_clock_status"))
+--]]
 
 	entry({"admin", "system", "admin"}, cbi("admin_system/admin"), _("Administration"), 2)
 
@@ -18,6 +21,7 @@ function index()
 		entry({"admin", "system", "packages", "ipkg"}, form("admin_system/ipkg"))
 	end
 
+--[[
 	entry({"admin", "system", "startup"}, form("admin_system/startup"), _("Startup"), 45)
 	entry({"admin", "system", "crontab"}, form("admin_system/crontab"), _("Scheduled Tasks"), 46)
 
@@ -39,6 +43,7 @@ function index()
 	-- call() instead of post() due to upload handling!
 	entry({"admin", "system", "flashops", "restore"}, call("action_restore"))
 	entry({"admin", "system", "flashops", "sysupgrade"}, call("action_sysupgrade"))
+--]]
 
 	entry({"admin", "system", "reboot"}, template("admin_system/reboot"), _("Reboot"), 90)
 	entry({"admin", "system", "reboot", "call"}, post("action_reboot"))
