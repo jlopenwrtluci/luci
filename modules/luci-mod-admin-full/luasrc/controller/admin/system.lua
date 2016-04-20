@@ -49,6 +49,7 @@ function index()
 	entry({"admin", "system", "reboot", "call"}, post("action_reboot"))
 end
 
+--[[
 function action_clock_status()
 	local set = tonumber(luci.http.formvalue("set"))
 	if set ~= nil and set > 0 then
@@ -63,7 +64,9 @@ function action_clock_status()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({ timestring = os.date("%c") })
 end
+--]]
 
+--[[
 function action_packages()
 	local fs = require "nixio.fs"
 	local ipkg = require "luci.model.ipkg"
@@ -181,6 +184,7 @@ function action_packages()
 		fs.unlink("/tmp/luci-indexcache")
 	end
 end
+--]]
 
 local function image_supported(image)
 	return (os.execute("sysupgrade -T %q >/dev/null" % image) == 0)
