@@ -10,9 +10,7 @@ function index()
 	entry({"admin", "system"}, alias("admin", "system", "system"), _("System"), 30).index = true
 
 	entry({"admin", "system", "system"}, cbi("admin_system/system"), _("System"), 1)
---[[
 	entry({"admin", "system", "clock_status"}, post_on({ set = true }, "action_clock_status"))
---]]
 
 	entry({"admin", "system", "admin"}, cbi("admin_system/admin"), _("Administration"), 2)
 
@@ -49,7 +47,6 @@ function index()
 	entry({"admin", "system", "reboot", "call"}, post("action_reboot"))
 end
 
---[[
 function action_clock_status()
 	local set = tonumber(luci.http.formvalue("set"))
 	if set ~= nil and set > 0 then
@@ -64,7 +61,6 @@ function action_clock_status()
 	luci.http.prepare_content("application/json")
 	luci.http.write_json({ timestring = os.date("%c") })
 end
---]]
 
 --[[
 function action_packages()
