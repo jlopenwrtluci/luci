@@ -122,24 +122,24 @@ end
 function action_ppoe_pass(pass)
 	return true
 end
+--]]
+
+function enable_action()
+	os = require "os"
+
+	-- copy /etc/config/guide to /etc/config/network
+	os.execute("lua /usr/lib/lua/luci/sys/guide_config_dispatcher.lua")
+
+	-- restart web ui
+	os.execute("reboot")
+end
 
 function m.on_commit(map)
-	local v1 = pass1.formvalue("_pass")
-	local v2 = pass2.formvalue("_pass")
-
-	if v1 and v2 then
-		if v1 == v2 then
-			if action_ppoe_pass(v1) then
-				m.message = "success!"
-			else
-				m.message = "err!!!!"
-			end
-		else
-			m.message = "password not same"
-		end
-	end
+	enable_action()
 end
-			
 		
---]]
+function m.on_apply(map)
+	enable_action()
+end
+
 return m

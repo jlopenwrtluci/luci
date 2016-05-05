@@ -7,26 +7,30 @@ local GUIDE_FILE = 'guide'
 local NETWORK_FILE = 'network'
 
 
+function debug(buf)
+	--print(buf)
+end
+	
 function init()
 	_uci = uci.cursor()	
 end
 
 function copy_to(l_file, l_sec, l_opt, r_file, r_sec, r_opt)
-	print(string.format("%s:%s:%s -> %s:%s:%s", l_file, l_sec, l_opt, r_file, r_sec, r_opt))
+	debug(string.format("%s:%s:%s -> %s:%s:%s", l_file, l_sec, l_opt, r_file, r_sec, r_opt))
 
 	if not (l_file and l_sec and l_opt and r_file and r_sec and r_opt) then
-		print('\tnil arg')
+		debug('\tnil arg')
 		return
 	end
 	
 	local tmp = _uci:get(l_file, l_sec, l_opt)
 	if not tmp then
-		print('\tnil val')
+		debug('\tnil val')
 		return
 	end
 
 	_uci:set(r_file, r_sec, r_opt, tmp)
-	print(string.format("\tchange value [%s] sucess!",tmp))
+	debug(string.format("\tchange value [%s] sucess!",tmp))
 end
 
 function set_guide_config_gate()
@@ -71,18 +75,18 @@ function set_config_guide()
 end
 
 function enable_one_save(file)
-	print(string.format('[!]save %s', file))
+	debug(string.format('[!]save %s', file))
 	_uci:save(file)
 end
 
 function enable_one_apply(file)
-	-- print(string.format('[!]load %s', file))
-	-- _uci:load(file)
-	-- _uci:apply(file)
+	debug(string.format('[!]load %s', file))
+	_uci:load(file)
+	_uci:apply(file)
 end
 
 function enable_one_commit(file)
-	print(string.format('[!]commit %s', file))
+	debug(string.format('[!]commit %s', file))
 	_uci:commit(file)
 end
 
