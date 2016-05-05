@@ -15,11 +15,6 @@ function jl_helper.get_addr_info()
 	return mac_info_dict
 end
 	
-function jl_helper.uci_set(file, sect, opt, val)
-  os.execute("uci set " .. file .. "." .. sect .. "." .. opt .. "="  .. mac)
-  os.execute("uci commit " .. file)
-end
-
 function test()
   addr_info = get_addr_info()
   mac = addr_info['eth0']
