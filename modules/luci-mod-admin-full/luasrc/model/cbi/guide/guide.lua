@@ -1,5 +1,11 @@
 package.path = package.path .. ";/usr/lib/lua/luci/sys/jl_helper.lua"
 jh = require("jl_helper")
+require "string"
+
+-----------------------------------------------------
+
+local line = '>>>>>>>>>>>>>>>>>>>>>>>>>'
+--local line = '=============================='
 
 -----------------------------------------------------
 
@@ -21,23 +27,41 @@ mode:value("span", "旁听模式")
 --mac.value = jh.get_addr_info()['eth0']
 --mac:depends("mode", "gate")
 
+gate_lan_title = s:option(DummyValue, '1', '内网IP(LAN设置)')
+gate_lan_title.value = line
+gate_lan_title:depends("mode", "gate")
+
 mac = s:option(DummyValue, "mac", "MAC地址")
-mac.value = jh.get_addr_info()['eth0']
+mac.value = string.upper(jh.get_addr_info()['eth0'])
 mac:depends("mode", "gate")
 
-gate_ip = s:option(Value, "gate_ip", "IP地址:")
-gate_ip:depends("mode", "gate")
 
-gate_mask = s:option(Value, "gate_mask", "子网掩码:")
-gate_mask:depends("mode", "gate")
+gate_lan_ip = s:option(Value, "gate_lan_ip", "IP地址:")
+gate_lan_ip:depends("mode", "gate")
+
+gate_lan_mask = s:option(Value, "gate_lan_mask", "子网掩码:")
+gate_lan_mask:depends("mode", "gate")
 
 ----------------------------------------------------
 
+dns_title = s:option(DummyValue, "888", "DNS属性")
+dns_title.value = line
+
+gate_dns = s:option(Value, "dns", "DNS服务器")
+
+----------------------------------------------------
+
+gate_wan_title = s:option(DummyValue, '2', '外网类型(WAN口设置)')
+gate_wan_title.value = line
+gate_wan_title:depends("mode", "gate")
+gate_wan_title:depends("mode", "span")
+
 wan_type = s:option(ListValue, "wan_type", "WAN口连接类型")
 wan_type:depends("mode", "gate")
+wan_type:depends("mode", "span")
 wan_type:value("pppoe", "PPPoE")
 wan_type:value("static", "静态IP")
-wan_type:value("dynamic", "动态IP")
+wan_type:value("dhcp", "动态IP")
 
 gate_pppoe_account = s:option(Value, "pppoe_account", "上网帐号:")
 gate_pppoe_account:depends("wan_type", "pppoe")
@@ -45,8 +69,8 @@ gate_pppoe_account:depends("wan_type", "pppoe")
 gate_pppoe_passwd = s:option(Value, "pppoe_passwd", "上网密码")
 gate_pppoe_passwd:depends("wan_type", "pppoe")
 
-gate_pppoe_retry_passwd = s:option(Value, "pppoe_retry_passwd", "确认密码")
-gate_pppoe_retry_passwd:depends("wan_type", "pppoe")
+--gate_pppoe_retry_passwd = s:option(Value, "pppoe_retry_passwd", "确认密码")
+--gate_pppoe_retry_passwd:depends("wan_type", "pppoe")
 
 ----------------------------------------------------
 
@@ -59,10 +83,19 @@ gate_static_wan_mask:depends("wan_type", "static")
 gate_static_wan_gateway = s:option(Value, "wan_static_gateway", "网关")
 gate_static_wan_gateway:depends("wan_type", "static")
 
+--[[
 gate_dns = s:option(Value, "gate_dns", "DNS服务器")
-gate_dns:depends("mode", "gate")
+gate_dns:depends("wan_type", "static")
+--]]
 
 ----------------------------------------------------
+
+
+----------------------------------------------------
+
+bridge_title = s:option(DummyValue, "44", "网桥(eth1, eth2)")
+bridge_title:depends("mode", "bridge")
+bridge_title.value = line
 
 bridge_eth_1_2_ip = s:option(Value, "bridge_eth_1_2_ip", "IP地址")
 bridge_eth_1_2_ip:depends("mode", "bridge")
@@ -73,12 +106,22 @@ bridge_eth_1_2_mask:depends("mode", "bridge")
 bridge_eth_1_2_gateway = s:option(Value, "bridge_eth_1_2_gateway", "网关")
 bridge_eth_1_2_gateway:depends("mode", "bridge")
 
+--[[
 bridge_dns = s:option(Value, "bridge_dns", 'DNS服务器')
 bridge_dns:depends("mode", "bridge")
+--]]
 
 ----------------------------------------------------
 
 -- span
+--[[
+span_dns_title = s:option(DummyValue, "11", 'DNS属性')
+span_dns_title.value = line
+span_dns_title:depends("mode", "span")
+
+span_dns = s:option(Value, "span_dns", 'DNS服务器')
+span_dns:depends("mode", "span")
+--]]
 
 ----------------------------------------------------
 
@@ -90,6 +133,7 @@ wifi_section.anonymous = true
 wifi_ssid = wifi_section:option(Value, "wifi_ssid", "SSID")
 wifi_passwd = wifi_section:option(Value, "wifi_passwd", "密码")
 wifi_channel = wifi_section:option(Value, "wifi_channel", "频段带宽")
+wifi_mhz = wifi_section:option(Value, "wifi_channel", "频段带宽")
 
 ----------------------------------------------------
 --o = s:option(Flag, "sync_flood", "gsfsd")
@@ -131,7 +175,7 @@ function enable_action()
 	os.execute("lua /usr/lib/lua/luci/sys/guide_config_dispatcher.lua")
 
 	-- restart web ui
-	os.execute("reboot")
+	-- os.execute("reboot")
 end
 
 function m.on_commit(map)
