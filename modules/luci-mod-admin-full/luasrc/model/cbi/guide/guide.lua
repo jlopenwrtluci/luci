@@ -175,7 +175,7 @@ function enable_action()
 	os.execute("lua /usr/lib/lua/luci/sys/guide_config_dispatcher.lua")
 
 	-- restart web ui
-	-- os.execute("reboot")
+	os.execute("reboot")
 end
 
 function m.on_commit(map)

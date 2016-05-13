@@ -203,7 +203,7 @@ function enable_one(file)
 	enable_one_save(file)
 	enable_one_commit(file)
 	-- TODO: close for debug
-	-- enable_one_apply(file)
+	enable_one_apply(file)
 end
 	
 function enable()
