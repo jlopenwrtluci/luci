@@ -166,10 +166,29 @@ end
 function set_guide_config_wifi()
 	local l_set, r_set, l_opt, r_opt
 	l_sec = 'guide_wifi'
+
 	r_sec = 'wifi_iface'
 
 	l_opt = 'wifi_ssid'
 	r_opt = 'ssid'
+	copy_to(GUIDE_FILE, l_sec, l_opt, WIFI_FILE, r_sec, r_opt)
+
+	l_opt = 'wifi_disabled'
+	r_opt = 'disabled'
+	copy_to(GUIDE_FILE, l_sec, l_opt, WIFI_FILE, r_sec, r_opt)
+
+	r_sec = 'radio0'
+
+	l_opt = 'wifi_channel'
+	r_opt = 'channel'
+	copy_to(GUIDE_FILE, l_sec, l_opt, WIFI_FILE, r_sec, r_opt)
+
+	l_opt = 'wifi_mhz'
+	r_opt = 'htmode'
+	copy_to(GUIDE_FILE, l_sec, l_opt, WIFI_FILE, r_sec, r_opt)
+
+	l_opt = 'wifi_tx'
+	r_opt = 'txpower'
 	copy_to(GUIDE_FILE, l_sec, l_opt, WIFI_FILE, r_sec, r_opt)
 end
 
