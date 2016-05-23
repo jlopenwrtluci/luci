@@ -4,8 +4,8 @@ require "string"
 
 -----------------------------------------------------
 
-local line = '>>>>>>>>>>>>>>>>>>>>>>>>>'
---local line = '=============================='
+local line = ">>>>>>>>>>>>>>>>>>>>>>>>>"
+--local line = "=============================="
 
 -----------------------------------------------------
 
@@ -24,23 +24,25 @@ mode:value("bridge", "网桥模式")
 mode:value("span", "旁听模式")
 
 --part1 = s:option(DummyValue, "内网IP", "")
---mac.value = jh.get_addr_info()['eth0']
+--mac.value = jh.get_addr_info()["eth0"]
 --mac:depends("mode", "gate")
 
-gate_lan_title = s:option(DummyValue, '1', '内网IP(LAN设置)')
+gate_lan_title = s:option(DummyValue, "1", "内网IP(LAN设置)")
 gate_lan_title.value = line
 gate_lan_title:depends("mode", "gate")
 
 mac = s:option(DummyValue, "mac", "MAC地址")
-mac.value = string.upper(jh.get_addr_info()['eth0'])
+mac.value = string.upper(jh.get_addr_info()["eth0"])
 mac:depends("mode", "gate")
 
 
 gate_lan_ip = s:option(Value, "gate_lan_ip", "IP地址:")
+gate_lan_ip.datatype = "ip4addr"
 gate_lan_ip:depends("mode", "gate")
 
 gate_lan_mask = s:option(Value, "gate_lan_mask", "子网掩码:")
 gate_lan_mask:depends("mode", "gate")
+gate_lan_mask.datatype = "ip4addr"
 
 ----------------------------------------------------
 
@@ -48,10 +50,11 @@ dns_title = s:option(DummyValue, "888", "DNS属性")
 dns_title.value = line
 
 gate_dns = s:option(Value, "dns", "DNS服务器")
+gate_dns.datatype = "ip4addr"
 
 ----------------------------------------------------
 
-gate_wan_title = s:option(DummyValue, '2', '外网类型(WAN口设置)')
+gate_wan_title = s:option(DummyValue, "2", "外网类型(WAN口设置)")
 gate_wan_title.value = line
 gate_wan_title:depends("mode", "gate")
 gate_wan_title:depends("mode", "span")
@@ -76,12 +79,15 @@ gate_pppoe_passwd:depends("wan_type", "pppoe")
 
 gate_static_wan_ip = s:option(Value, "wan_static_ip", "IP地址")
 gate_static_wan_ip:depends("wan_type", "static")
+gate_static_wan_ip.datatype = "ip4addr"
 
 gate_static_wan_mask = s:option(Value, "wan_static_mask", "子网掩码")
 gate_static_wan_mask:depends("wan_type", "static")
+gate_static_wan_mask.datatype = "ip4addr"
 
 gate_static_wan_gateway = s:option(Value, "wan_static_gateway", "网关")
 gate_static_wan_gateway:depends("wan_type", "static")
+gate_static_wan_gateway.datatype = "ip4addr"
 
 --[[
 gate_dns = s:option(Value, "gate_dns", "DNS服务器")
@@ -99,15 +105,18 @@ bridge_title.value = line
 
 bridge_eth_1_2_ip = s:option(Value, "bridge_eth_1_2_ip", "IP地址")
 bridge_eth_1_2_ip:depends("mode", "bridge")
+bridge_eth_1_2_ip.datatype = "ip4addr"
 
 bridge_eth_1_2_mask = s:option(Value, "bridge_eth_1_2_mask", "子网掩码")
 bridge_eth_1_2_mask:depends("mode", "bridge")
+bridge_eth_1_2_mask.datatype = "ip4addr"
 
 bridge_eth_1_2_gateway = s:option(Value, "bridge_eth_1_2_gateway", "网关")
 bridge_eth_1_2_gateway:depends("mode", "bridge")
+bridge_eth_1_2_gateway.datatype = "ip4addr"
 
 --[[
-bridge_dns = s:option(Value, "bridge_dns", 'DNS服务器')
+bridge_dns = s:option(Value, "bridge_dns", "DNS服务器")
 bridge_dns:depends("mode", "bridge")
 --]]
 
@@ -115,11 +124,11 @@ bridge_dns:depends("mode", "bridge")
 
 -- span
 --[[
-span_dns_title = s:option(DummyValue, "11", 'DNS属性')
+span_dns_title = s:option(DummyValue, "11", "DNS属性")
 span_dns_title.value = line
 span_dns_title:depends("mode", "span")
 
-span_dns = s:option(Value, "span_dns", 'DNS服务器')
+span_dns = s:option(Value, "span_dns", "DNS服务器")
 span_dns:depends("mode", "span")
 --]]
 
@@ -140,7 +149,7 @@ wifi_mhz = wifi_section:option(Value, "wifi_channel", "频段带宽")
 --s.addremove = false
 --o.default = o.enabled
 --f_proto = m:field(ListValue, "lan", translate("lan"))
---f_proto.default = translate('wan')
+--f_proto.default = translate("wan")
 --m:field(ListValue, "wan", translate("wan")).default = "wan"
 --m:field(ListValue, "wan", translate("wan")).default = "wan"
 --f_proto = m:field(ListValue, "lan", translate("lan"))
@@ -148,7 +157,7 @@ wifi_mhz = wifi_section:option(Value, "wifi_channel", "频段带宽")
 --[[
 s = m:section(NamedSection, "guide", "guide", "guide")
 --s.addremove = true
-s:option(DummyValue, "mac", translate("mac")).value = jh.get_addr_info()['eth0']
+s:option(DummyValue, "mac", translate("mac")).value = jh.get_addr_info()["eth0"]
 s:option(Value, "addr", translate("IPv4 address"))
 key=s:option(Value, "netmask", translate(""))
 
