@@ -173,6 +173,10 @@ function set_guide_config_wifi()
 	r_opt = 'ssid'
 	copy_to(GUIDE_FILE, l_sec, l_opt, WIFI_FILE, r_sec, r_opt)
 
+	l_opt = 'wifi_passwd'
+	r_opt = 'key'
+	copy_to(GUIDE_FILE, l_sec, l_opt, WIFI_FILE, r_sec, r_opt)
+
 	l_opt = 'wifi_disabled'
 	r_opt = 'disabled'
 	copy_to(GUIDE_FILE, l_sec, l_opt, WIFI_FILE, r_sec, r_opt)
