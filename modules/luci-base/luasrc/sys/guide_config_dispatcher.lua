@@ -5,10 +5,11 @@ local _uci
 
 local GUIDE_FILE = 'guide'
 local NETWORK_FILE = 'network'
+local WIFI_FILE = 'wireless'
 
 
 function debug(buf)
-	--print(buf)
+	-- print(buf)
 end
 	
 function init()
@@ -163,6 +164,13 @@ function set_guide_config_span()
 end
 
 function set_guide_config_wifi()
+	local l_set, r_set, l_opt, r_opt
+	l_sec = 'guide_wifi'
+	r_sec = 'wifi_iface'
+
+	l_opt = 'wifi_ssid'
+	r_opt = 'ssid'
+	copy_to(GUIDE_FILE, l_sec, l_opt, WIFI_FILE, r_sec, r_opt)
 end
 
 function set_config_guide()
@@ -208,6 +216,7 @@ end
 	
 function enable()
 	enable_one(NETWORK_FILE)
+	enable_one(WIFI_FILE)
 end
 
 function main()
