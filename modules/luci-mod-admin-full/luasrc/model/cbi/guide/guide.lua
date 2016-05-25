@@ -21,7 +21,6 @@ s.anonymous = true
 mode = s:option(ListValue, "mode", "工作模式")
 mode:value("gate", "网关模式")
 mode:value("bridge", "网桥模式")
-mode:value("span", "旁听模式")
 
 --part1 = s:option(DummyValue, "内网IP", "")
 --mac.value = jh.get_addr_info()["eth0"]
