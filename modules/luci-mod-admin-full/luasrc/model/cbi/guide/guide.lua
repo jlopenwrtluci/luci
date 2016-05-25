@@ -147,6 +147,7 @@ wifi_ssid:depends("wifi_disabled", "0")
 
 wifi_passwd = wifi_section:option(Value, "wifi_passwd", "密码")
 wifi_passwd:depends("wifi_disabled", "0")
+wifi_passwd.datatype = "wpakey"
 
 wifi_channel = wifi_section:option(ListValue, "wifi_channel", "信道")
 wifi_channel:depends("wifi_disabled", "0")
